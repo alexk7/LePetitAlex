@@ -1,0 +1,76 @@
+<head>
+  <title>Le Petit Alex</title>
+</head>
+
+<template name="Main">
+  <div class="container">
+    <h1>Le Petit Alex</h1>
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="{{ activeIfTemplateIs 'Home' }}"><a href="/">Home</a></li>
+      <li role="presentation" class="{{ activeIfTemplateIs 'Foodstuffs' }}"><a href="Foodstuffs">Foodstuffs</a></li>
+      <li role="presentation" class="{{ activeIfTemplateIs 'Events' }}"><a href="Events">Events</a></li>
+    </ul>
+    {{>yield}}
+  </div>
+</template>
+
+<template name="Home">
+</template>
+
+<template name="Foodstuffs">
+  {{> autoformModals}}
+  {{#afModal class="btn btn-primary" collection="Foodstuffs" operation="insert"}}Add new foodstuff{{/afModal}}
+  {{> EasySearch.Input index=foodstuffIndex attributes=searchAttributes}}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Fat (%m)</th>
+        <th>Net&nbsp;Carb. (%m)</th>
+        <th>Protein (%m)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#EasySearch.Each index=foodstuffIndex }}
+        <tr>
+          <td>{{description}}</td>
+          <td>{{fat}}</td>
+          <td>{{netcarb}}</td>
+          <td>{{protein}}</td>
+          <td><nobr>
+            {{#afModal class="btn btn-primary" collection="Foodstuffs" operation="update" doc=__originalId}}Edit{{/afModal}}
+            {{#afModal class="btn btn-danger" collection="Foodstuffs" operation="remove" doc=__originalId}}Delete{{/afModal}}
+          </nobr></td>
+        </tr>
+      {{/EasySearch.Each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="Events">
+  {{> autoformModals}}
+  {{#afModal class="btn btn-primary" collection="Events" operation="insert"}}Add new event{{/afModal}}
+  <!-- {{> EasySearch.Input index=eventIndex attributes=searchAttributes}} -->
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <!-- <th>Food</th> -->
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- {{#EasySearch.Each index=eventIndex }} -->{{#each events}}
+        <tr>
+          <td>{{time}}</td>
+          <!-- <td>{{foods}}</td> -->
+          <td><nobr>
+            {{#afModal class="btn btn-primary" collection="Events" operation="update" doc=_id}}Edit{{/afModal}}
+            {{#afModal class="btn btn-danger" collection="Events" operation="remove" doc=_id}}Delete{{/afModal}}
+          </nobr></td>
+        </tr>
+      <!-- {{/EasySearch.Each}} -->{{/each}}
+    </tbody>
+  </table>
+</template>
