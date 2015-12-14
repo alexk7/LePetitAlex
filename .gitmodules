@@ -1,0 +1,6 @@
+[submodule "packages/meteor-autoform"]
+	path = packages/meteor-autoform
+	url = https://github.com/alexk7/meteor-autoform.git
+[submodule "packages/meteor-autoform-modals"]
+	path = packages/meteor-autoform-modals
+	url = https://github.com/alexk7/meteor-autoform-modals.git
