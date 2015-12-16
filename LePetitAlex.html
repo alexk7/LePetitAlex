@@ -3,11 +3,13 @@
 </head>
 
 <template name="Main">
+  {{> autoformModals}}
   <div class="container">
     <h1>Le Petit Alex</h1>
     <ul class="nav nav-tabs">
       <li role="presentation" class="{{ activeIfTemplateIs 'Home' }}"><a href="/">Home</a></li>
       <li role="presentation" class="{{ activeIfTemplateIs 'Foodstuffs' }}"><a href="Foodstuffs">Foodstuffs</a></li>
+      <li role="presentation" class="{{ activeIfTemplateIs 'Recipes' }}"><a href="Recipes">Recipes</a></li>
       <li role="presentation" class="{{ activeIfTemplateIs 'Events' }}"><a href="Events">Events</a></li>
     </ul>
     {{>yield}}
@@ -18,8 +20,7 @@
 </template>
 
 <template name="Foodstuffs">
-  {{> autoformModals}}
-  {{#afModal class="btn btn-primary" collection="Foodstuffs" operation="insert"}}Add new foodstuff{{/afModal}}
+  {{#afModal class="btn btn-primary" collection="Foodstuffs" operation="insert"}}Add a new foodstuff{{/afModal}}
   {{> EasySearch.Input index=foodstuffIndex attributes=searchAttributes}}
   <table class="table table-striped">
     <thead>
@@ -32,7 +33,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#EasySearch.Each index=foodstuffIndex }}
+      {{#EasySearch.Each index=foodstuffIndex }}<!-- {{#each foodstuffs}} -->
         <tr>
           <td>{{description}}</td>
           <td>{{fat}}</td>
@@ -40,7 +41,31 @@
           <td>{{protein}}</td>
           <td><nobr>
             {{#afModal class="btn btn-primary" collection="Foodstuffs" operation="update" doc=__originalId}}Edit{{/afModal}}
-            {{#afModal class="btn btn-danger" collection="Foodstuffs" operation="remove" doc=__originalId}}Delete{{/afModal}}
+            {{>quickRemoveButton class="btn btn-danger" collection="Foodstuffs" _id=__originalId}}
+          </nobr></td>
+        </tr>
+      {{/EasySearch.Each}}<!-- {{/each}} -->
+    </tbody>
+  </table>
+</template>
+
+<template name="Recipes">
+  {{#afModal class="btn btn-primary" collection="Recipes" operation="insert"}}Add a new recipe{{/afModal}}
+  {{> EasySearch.Input index=recipeIndex attributes=searchAttributes}}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#EasySearch.Each index=recipeIndex }}
+        <tr>
+          <td>{{description}}</td>
+          <td><nobr>
+            {{#afModal class="btn btn-primary" collection="Recipes" operation="update" doc=__originalId}}Edit{{/afModal}}
+            {{>quickRemoveButton class="btn btn-danger" collection="Recipes" _id=__originalId}}
           </nobr></td>
         </tr>
       {{/EasySearch.Each}}
@@ -49,8 +74,7 @@
 </template>
 
 <template name="Events">
-  {{> autoformModals}}
-  {{#afModal class="btn btn-primary" collection="Events" operation="insert"}}Add new event{{/afModal}}
+  {{#afModal class="btn btn-primary" collection="Events" operation="insert"}}Add a new event{{/afModal}}
   <!-- {{> EasySearch.Input index=eventIndex attributes=searchAttributes}} -->
   <table class="table table-striped">
     <thead>
@@ -66,11 +90,24 @@
           <td>{{time}}</td>
           <!-- <td>{{foods}}</td> -->
           <td><nobr>
+            <!-- {{#afModal class="btn btn-primary" collection="Events" operation="update" doc=__originalId}}Edit{{/afModal}} -->
+            <!-- {{#afModal class="btn btn-danger" collection="Events" operation="remove" doc=__originalId}}Delete{{/afModal}} -->
             {{#afModal class="btn btn-primary" collection="Events" operation="update" doc=_id}}Edit{{/afModal}}
-            {{#afModal class="btn btn-danger" collection="Events" operation="remove" doc=_id}}Delete{{/afModal}}
+            {{>quickRemoveButton class="btn btn-danger" collection="Events" _id=this._id}}
           </nobr></td>
         </tr>
       <!-- {{/EasySearch.Each}} -->{{/each}}
     </tbody>
   </table>
+</template>
+
+<template name="AddNewEvent">
+    {{#autoForm collection="Events" type="insert"}}
+    <fieldset>
+      <legend>Add a new Event</legend>
+      {{> afQuickField class="form-control" name='time' value=now}}
+      {{> afQuickField class="form-control" name='foods'}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Insert</button>
+  {{/autoForm}}
 </template>
