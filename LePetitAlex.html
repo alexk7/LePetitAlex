@@ -29,13 +29,18 @@
         <th>Fat (%m)</th>
         <th>Net&nbsp;Carb. (%m)</th>
         <th>Protein (%m)</th>
-        <th>Actions</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      {{#EasySearch.Each index=foodstuffIndex }}<!-- {{#each foodstuffs}} -->
+      {{#EasySearch.Each index=foodstuffIndex}}
         <tr>
-          <td>{{description}}</td>
+          <td>
+            {{#autoForm action="#" collection="Foodstuffs" id=formId type="update" doc=originalDoc autosave=true autosaveOnKeyup=true}}
+              {{>afFieldInput class="stealth-input" template="plain" name="description" autocomplete="off"}}
+              <span class="message">{{afFieldMessage name="description"}}</span>
+            {{/autoForm}}
+          </td>
           <td>{{fat}}</td>
           <td>{{netcarb}}</td>
           <td>{{protein}}</td>
@@ -44,9 +49,13 @@
             {{>quickRemoveButton class="btn btn-danger" collection="Foodstuffs" _id=__originalId}}
           </nobr></td>
         </tr>
-      {{/EasySearch.Each}}<!-- {{/each}} -->
+      {{/EasySearch.Each}}
     </tbody>
   </table>
+</template>
+
+<template name="Foodstuff">
+
 </template>
 
 <template name="Recipes">

@@ -21,3 +21,17 @@ h1 {
   max-width: 600px;
   width: calc(100% - 190px);
 }
+.stealth-input {
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+}
+.stealth-input:focus {
+  outline: 0;
+}
+.message {
+  width: 100px;
+  float: right;
+  color: red;
+  font-size: 10px;
+}

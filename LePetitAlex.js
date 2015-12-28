@@ -1,7 +1,12 @@
 Schemas = {};
 
 Schemas.Foodstuff = new SimpleSchema({
-  description: { type: String },
+  description: {
+    type: String,
+    autoValue: function() {
+      return this.value.charAt(0).toUpperCase() + this.value.slice(1);
+    }
+  },
   fat:         { type: Number, label: "Fat (%m)",              min: 0, max: 100 },
   netcarb:     { type: Number, label: "Net Carbohydrate (%m)", min: 0, max: 100 },
   protein:     { type: Number, label: "Protein (%m)",          min: 0, max: 100 }
@@ -91,7 +96,17 @@ if (Meteor.isClient) {
   });
   Template.Foodstuffs.helpers({
     foodstuffIndex: function() { return FoodstuffIndex; },
-    foodstuffs: function() { return Foodstuffs.find(); }
+    foodstuffs: function() { return Foodstuffs.find(); },
+    formId: function() { return "form-" + this.__originalId; },
+    originalDoc: function() {
+      return {
+        _id: this.__originalId,
+        description: this.description,
+        fat: this.fat,
+        netcarb: this.netcarb,
+        protein: this.protein
+      };
+    }
   });
   Template.Recipes.helpers({
     recipeIndex: function() { return RecipeIndex; },
