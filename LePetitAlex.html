@@ -42,8 +42,8 @@
             {{/autoForm}}
           </td>
           <td><input type="text" data-id="{{__originalId}}" data-name="fat" class="stealth-input auto-input" value="{{fat}}"></td>
-          <td>{{netcarb}}</td>
-          <td>{{protein}}</td>
+          <td><input type="text" data-id="{{__originalId}}" data-name="netcarb" class="stealth-input auto-input" value="{{netcarb}}"></td>
+          <td><input type="text" data-id="{{__originalId}}" data-name="protein" class="stealth-input auto-input" value="{{protein}}"></td>
           <td><nobr>
             {{#afModal class="btn btn-primary" collection="Foodstuffs" operation="update" doc=__originalId}}Edit{{/afModal}}
             {{>quickRemoveButton class="btn btn-danger" collection="Foodstuffs" _id=__originalId}}
