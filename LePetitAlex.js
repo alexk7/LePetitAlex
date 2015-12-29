@@ -4,7 +4,8 @@ Schemas.Foodstuff = new SimpleSchema({
   description: {
     type: String,
     autoValue: function() {
-      return this.value.charAt(0).toUpperCase() + this.value.slice(1);
+      if (this.isSet)
+        return this.value.charAt(0).toUpperCase() + this.value.slice(1);
     }
   },
   fat:         { type: Number, label: "Fat (%m)",              min: 0, max: 100 },
@@ -107,6 +108,23 @@ if (Meteor.isClient) {
         protein: this.protein
       };
     }
+  });
+  Template.Foodstuffs.events({
+    "input .auto-input": function (event) {
+      var target = event.target;
+      var dataset = target.dataset;
+      var modifier = {$set: {}};
+      modifier.$set[dataset.name] = target.value;
+      Foodstuffs.update(dataset.id, modifier, {}, function(error) {
+        target.style.color = error ? 'red' : 'black';
+      });
+    },
+    "blur .auto-input": function (event) {
+      var target = event.target;
+      var dataset = target.dataset;
+      target.value = Foodstuffs.findOne({_id: dataset.id})[dataset.name];
+      target.style.color = 'black';
+    },
   });
   Template.Recipes.helpers({
     recipeIndex: function() { return RecipeIndex; },
